@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Star, GitFork, Loader2, Globe, X } from "lucide-react";
+import { ExternalLink, Star, GitFork, Loader2, Globe, X, AlertCircle, RefreshCw } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 
 interface Project {
@@ -91,42 +91,63 @@ const fallbackProjects: Project[] = [
 export const ProjectsSection = () => {
   const [projects, setProjects] = useState<Project[]>(fallbackProjects);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchRepoData = async () => {
-      try {
-        const response = await fetch(`/api/github/repos?repos=${projectRepos.join(",")}`);
-        
-        if (!response.ok) {
-          throw new Error("Failed to fetch repository data");
+  const fetchRepoData = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(`/api/github/repos?repos=${projectRepos.join(",")}`);
+      
+      if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error("GitHub API rate limit exceeded. Showing cached project data.");
+        } else if (response.status === 404) {
+          throw new Error("Repository data not found. Showing fallback project data.");
+        } else if (response.status >= 500) {
+          throw new Error("GitHub service is currently unavailable. Showing fallback project data.");
+        } else {
+          throw new Error("Failed to fetch live project data. Showing fallback data.");
         }
-
-        const data = await response.json();
-        
-        if (data.repos && data.repos.length > 0) {
-          const updatedProjects = data.repos.map((repo: GithubRepo) => {
-            const fallbackProject = fallbackProjects.find(p => p.name === repo.name);
-            return {
-              name: repo.name,
-              description: repo.description || fallbackProject?.description || "No description available",
-              tags: repo.topics.length > 0 ? repo.topics.slice(0, 4) : [repo.language].filter(Boolean),
-              stars: repo.stars,
-              forks: repo.forks,
-              url: repo.html_url,
-              liveUrl: fallbackProject?.liveUrl
-            };
-          });
-          setProjects(updatedProjects);
-        }
-      } catch (error) {
-        console.error("Error fetching GitHub data:", error);
-        // Keep fallback data
-      } finally {
-        setIsLoading(false);
       }
-    };
 
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      if (data.repos && data.repos.length > 0) {
+        const updatedProjects = data.repos.map((repo: GithubRepo) => {
+          const fallbackProject = fallbackProjects.find(p => p.name === repo.name);
+          return {
+            name: repo.name,
+            description: repo.description || fallbackProject?.description || "No description available",
+            tags: repo.topics.length > 0 ? repo.topics.slice(0, 4) : [repo.language].filter(Boolean),
+            stars: repo.stars,
+            forks: repo.forks,
+            url: repo.html_url,
+            liveUrl: fallbackProject?.liveUrl
+          };
+        });
+        setProjects(updatedProjects);
+      } else {
+        throw new Error("No repository data received. Showing fallback project data.");
+      }
+    } catch (error) {
+      console.error("Error fetching GitHub data:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unable to fetch live project data from GitHub.";
+      setError(errorMessage);
+      // Keep fallback data visible
+      setProjects(fallbackProjects);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchRepoData();
   }, []);
 
@@ -178,6 +199,39 @@ export const ProjectsSection = () => {
             A showcase of my most notable open-source contributions and personal projects.
           </p>
         </motion.div>
+
+        {/* Error Banner */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-8 p-4 rounded-lg bg-destructive/10 border border-destructive/20 flex items-start gap-3"
+          >
+            <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm text-foreground">
+                {error}
+              </p>
+            </div>
+            <button
+              onClick={fetchRepoData}
+              disabled={isLoading}
+              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md bg-destructive/20 hover:bg-destructive/30 text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Retry fetching data"
+            >
+              <RefreshCw size={14} className={isLoading ? "animate-spin" : ""} />
+              Retry
+            </button>
+            <button
+              onClick={() => setError(null)}
+              className="text-secondary hover:text-foreground transition-colors"
+              title="Dismiss error"
+            >
+              <X size={18} />
+            </button>
+          </motion.div>
+        )}
 
         {/* Filter Tags Section */}
         {!isLoading && allTags.length > 0 && (
