@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Star, GitFork, Loader2, Globe } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ExternalLink, Star, GitFork, Loader2, Globe, X } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 
 interface Project {
   name: string;
@@ -91,6 +91,7 @@ const fallbackProjects: Project[] = [
 export const ProjectsSection = () => {
   const [projects, setProjects] = useState<Project[]>(fallbackProjects);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchRepoData = async () => {
@@ -129,6 +130,37 @@ export const ProjectsSection = () => {
     fetchRepoData();
   }, []);
 
+  // Extract all unique tags from all projects
+  const allTags = useMemo(() => {
+    const tagsSet = new Set<string>();
+    projects.forEach(project => {
+      project.tags.forEach(tag => tagsSet.add(tag));
+    });
+    return Array.from(tagsSet).sort();
+  }, [projects]);
+
+  // Filter projects based on selected tags
+  const filteredProjects = useMemo(() => {
+    if (selectedTags.length === 0) {
+      return projects;
+    }
+    return projects.filter(project => 
+      selectedTags.some(tag => project.tags.includes(tag))
+    );
+  }, [projects, selectedTags]);
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedTags([]);
+  };
+
   return (
     <section id="projects" className="py-20 px-6 bg-background/50">
       <div className="container mx-auto max-w-6xl">
@@ -147,13 +179,66 @@ export const ProjectsSection = () => {
           </p>
         </motion.div>
 
+        {/* Filter Tags Section */}
+        {!isLoading && allTags.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <div className="flex flex-wrap items-center gap-3 justify-center">
+              <span className="text-sm text-secondary font-medium">Filter by:</span>
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`text-sm px-4 py-2 rounded-full border transition-all ${
+                    selectedTags.includes(tag)
+                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                      : "bg-card/50 text-secondary border-border hover:border-primary/50 hover:text-primary"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+              {selectedTags.length > 0 && (
+                <button
+                  onClick={clearFilters}
+                  className="text-sm px-4 py-2 rounded-full bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/20 transition-all flex items-center gap-1"
+                >
+                  <X size={14} />
+                  Clear Filters
+                </button>
+              )}
+            </div>
+            {selectedTags.length > 0 && (
+              <p className="text-center text-sm text-secondary mt-4">
+                Showing {filteredProjects.length} of {projects.length} projects
+              </p>
+            )}
+          </motion.div>
+        )}
+
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
+        ) : filteredProjects.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-lg text-secondary">
+              No projects found matching the selected filters.
+            </p>
+            <button
+              onClick={clearFilters}
+              className="mt-4 text-primary hover:underline"
+            >
+              Clear all filters
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.name}
                 initial={{ opacity: 0, y: 20 }}
