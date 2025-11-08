@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Star, GitFork, Loader2 } from "lucide-react";
+import { ExternalLink, Star, GitFork, Loader2, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Project {
@@ -11,6 +11,7 @@ interface Project {
   stars: number;
   forks: number;
   url: string;
+  liveUrl?: string;
 }
 
 interface GithubRepo {
@@ -39,7 +40,8 @@ const fallbackProjects: Project[] = [
     tags: ["TypeScript", "Next.js", "AI", "Canvas API"],
     stars: 0,
     forks: 0,
-    url: "https://github.com/girishlade111/AetherCanvas"
+    url: "https://github.com/girishlade111/AetherCanvas",
+    liveUrl: "https://aethercanvas.vercel.app"
   },
   {
     name: "Synergy-Flow",
@@ -47,7 +49,8 @@ const fallbackProjects: Project[] = [
     tags: ["React", "Node.js", "WebSocket", "PostgreSQL"],
     stars: 0,
     forks: 0,
-    url: "https://github.com/girishlade111/Synergy-Flow"
+    url: "https://github.com/girishlade111/Synergy-Flow",
+    liveUrl: "https://synergy-flow.vercel.app"
   },
   {
     name: "GB-Coder Public Beta",
@@ -63,7 +66,8 @@ const fallbackProjects: Project[] = [
     tags: ["Next.js", "Tailwind CSS", "Framer Motion"],
     stars: 0,
     forks: 0,
-    url: "https://github.com/girishlade111/Lade-Studio"
+    url: "https://github.com/girishlade111/Lade-Studio",
+    liveUrl: "https://lade-studio.vercel.app"
   },
   {
     name: "Lade-Stack-AI-Dev-Hub",
@@ -79,7 +83,8 @@ const fallbackProjects: Project[] = [
     tags: ["React", "TensorFlow.js", "Canvas", "WebGL"],
     stars: 0,
     forks: 0,
-    url: "https://github.com/girishlade111/Artify"
+    url: "https://github.com/girishlade111/Artify",
+    liveUrl: "https://artify-demo.vercel.app"
   }
 ];
 
@@ -99,14 +104,18 @@ export const ProjectsSection = () => {
         const data = await response.json();
         
         if (data.repos && data.repos.length > 0) {
-          const updatedProjects = data.repos.map((repo: GithubRepo) => ({
-            name: repo.name,
-            description: repo.description || fallbackProjects.find(p => p.name === repo.name)?.description || "No description available",
-            tags: repo.topics.length > 0 ? repo.topics.slice(0, 4) : [repo.language].filter(Boolean),
-            stars: repo.stars,
-            forks: repo.forks,
-            url: repo.html_url
-          }));
+          const updatedProjects = data.repos.map((repo: GithubRepo) => {
+            const fallbackProject = fallbackProjects.find(p => p.name === repo.name);
+            return {
+              name: repo.name,
+              description: repo.description || fallbackProject?.description || "No description available",
+              tags: repo.topics.length > 0 ? repo.topics.slice(0, 4) : [repo.language].filter(Boolean),
+              stars: repo.stars,
+              forks: repo.forks,
+              url: repo.html_url,
+              liveUrl: fallbackProject?.liveUrl
+            };
+          });
           setProjects(updatedProjects);
         }
       } catch (error) {
@@ -158,14 +167,28 @@ export const ProjectsSection = () => {
                   <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
                     {project.name}
                   </h3>
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-secondary hover:text-primary transition-colors"
-                  >
-                    <ExternalLink size={20} />
-                  </a>
+                  <div className="flex items-center gap-2">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-secondary hover:text-primary transition-colors"
+                        title="View Live Demo"
+                      >
+                        <Globe size={20} />
+                      </a>
+                    )}
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-secondary hover:text-primary transition-colors"
+                      title="View on GitHub"
+                    >
+                      <ExternalLink size={20} />
+                    </a>
+                  </div>
                 </div>
 
                 <p className="text-sm text-secondary mb-4 line-clamp-2">
