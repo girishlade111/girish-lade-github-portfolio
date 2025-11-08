@@ -2,17 +2,63 @@
 
 import { motion } from "framer-motion";
 import { Star, GitCommit, GitPullRequest, AlertCircle, FolderGit2, Activity } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const stats = [
-  { icon: Star, label: "Stars Earned", value: "588", color: "text-yellow-400" },
-  { icon: GitCommit, label: "Total Commits (Last Year)", value: "3.8K+", color: "text-green-400" },
-  { icon: GitPullRequest, label: "Pull Requests", value: "16", color: "text-purple-400" },
-  { icon: AlertCircle, label: "Issues", value: "42", color: "text-red-400" },
-  { icon: FolderGit2, label: "Repositories", value: "614", color: "text-blue-400" },
-  { icon: Activity, label: "Contributions", value: "3,183+", color: "text-primary" },
-];
+interface GitHubStats {
+  totalCommits: number;
+  publicRepos: number;
+  followers: number;
+  following: number;
+}
 
 export const AboutSection = () => {
+  const [githubStats, setGithubStats] = useState<GitHubStats | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGitHubStats = async () => {
+      try {
+        const response = await fetch("/api/github/stats");
+        if (response.ok) {
+          const data = await response.json();
+          setGithubStats(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch GitHub stats:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGitHubStats();
+  }, []);
+
+  const formatNumber = (num: number): string => {
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(1)}K+`;
+    }
+    return num.toString();
+  };
+
+  const stats = [
+    { icon: Star, label: "Stars Earned", value: "588", color: "text-yellow-400" },
+    { 
+      icon: GitCommit, 
+      label: "Total Commits (Last Year)", 
+      value: isLoading ? "..." : (githubStats ? formatNumber(githubStats.totalCommits) : "3.8K+"), 
+      color: "text-green-400" 
+    },
+    { icon: GitPullRequest, label: "Pull Requests", value: "16", color: "text-purple-400" },
+    { icon: AlertCircle, label: "Issues", value: "42", color: "text-red-400" },
+    { 
+      icon: FolderGit2, 
+      label: "Repositories", 
+      value: isLoading ? "..." : (githubStats ? githubStats.publicRepos.toString() : "614"), 
+      color: "text-blue-400" 
+    },
+    { icon: Activity, label: "Contributions", value: "3,183+", color: "text-primary" },
+  ];
+
   return (
     <section id="about" className="py-20 px-6">
       <div className="container mx-auto max-w-6xl">
