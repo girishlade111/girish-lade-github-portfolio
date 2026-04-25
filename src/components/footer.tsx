@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart, Zap } from "lucide-react";
+import { HeartIcon, ZapIcon } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -20,13 +20,13 @@ export const Footer = () => {
             <span>© 2025 Lade Stack</span>
             <span className="mx-2 text-white/20">•</span>
             <span>Built with</span>
-            <Heart size={16} className="text-rose-400 fill-rose-400" />
+            <HeartIcon size={16} className="text-rose-400 fill-rose-400" />
             <span>by</span>
             <span className="text-primary font-semibold">Girish Lade</span>
           </p>
           
           <div className="flex items-center justify-center gap-2 mt-5 text-sm text-muted-foreground">
-            <Zap size={14} className="text-primary" />
+            <ZapIcon size={14} className="text-primary" />
             <span>Powered by Next.js, Tailwind CSS & Framer Motion</span>
           </div>
         </motion.div>

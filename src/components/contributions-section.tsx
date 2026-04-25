@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { GitHubCalendar } from "react-github-calendar";
-import { Activity } from "lucide-react";
+import { ActivityIcon } from "lucide-react";
 
 export const ContributionsSection = () => {
   const [mounted, setMounted] = useState(false);
@@ -29,7 +29,7 @@ export const ContributionsSection = () => {
             transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
           >
-            <Activity size={16} />
+            <ActivityIcon size={16} />
             <span>Activity</span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">

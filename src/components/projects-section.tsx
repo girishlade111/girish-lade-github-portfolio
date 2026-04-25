@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Star, GitFork, Loader2, Globe, X, AlertCircle, RefreshCw, FolderOpen } from "lucide-react";
+import { ExternalLinkIcon, StarIcon, GitForkIcon, Loader2Icon, GlobeIcon, XIcon, AlertCircleIcon, RefreshCwIcon, FolderOpenIcon } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 
 interface Project {
@@ -196,7 +196,7 @@ export const ProjectsSection = () => {
             transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
           >
-            <FolderOpen size={16} />
+            <FolderOpenIcon size={16} />
             <span>Featured Work</span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
@@ -213,7 +213,7 @@ export const ProjectsSection = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8 p-4 rounded-xl bg-destructive/10 border border-destructive/20 flex items-start gap-3"
           >
-            <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+            <AlertCircleIcon className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <p className="text-sm text-foreground">{error}</p>
             </div>
@@ -222,14 +222,14 @@ export const ProjectsSection = () => {
               disabled={isLoading}
               className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md bg-destructive/20 hover:bg-destructive/30 text-foreground transition-colors disabled:opacity-50"
             >
-              <RefreshCw size={14} className={isLoading ? "animate-spin" : ""} />
+              <RefreshCwIcon size={14} className={isLoading ? "animate-spin" : ""} />
               Retry
             </button>
             <button
               onClick={() => setError(null)}
               className="text-secondary hover:text-foreground transition-colors"
             >
-              <X size={18} />
+              <XIcon size={18} />
             </button>
           </motion.div>
         )}
@@ -261,7 +261,7 @@ export const ProjectsSection = () => {
                   onClick={clearFilters}
                   className="text-sm px-4 py-2 rounded-full bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/20 transition-all flex items-center gap-1"
                 >
-                  <X size={14} />
+                  <XIcon size={14} />
                   Clear
                 </button>
               )}
@@ -276,7 +276,7 @@ export const ProjectsSection = () => {
 
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <Loader2Icon className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : filteredProjects.length === 0 ? (
           <div className="text-center py-20">
@@ -310,7 +310,7 @@ export const ProjectsSection = () => {
                         className="text-secondary hover:text-primary transition-colors p-1 rounded-lg hover:bg-primary/10"
                         title="View Live Demo"
                       >
-                        <Globe size={18} />
+                        <GlobeIcon size={18} />
                       </a>
                     )}
                     <a
@@ -320,7 +320,7 @@ export const ProjectsSection = () => {
                       className="text-secondary hover:text-primary transition-colors p-1 rounded-lg hover:bg-primary/10"
                       title="View on GitHub"
                     >
-                      <ExternalLink size={18} />
+                      <ExternalLinkIcon size={18} />
                     </a>
                   </div>
                 </div>
@@ -342,11 +342,11 @@ export const ProjectsSection = () => {
 
                 <div className="flex items-center gap-5 text-sm text-secondary pt-3 border-t border-border/50">
                   <div className="flex items-center gap-1.5">
-                    <Star size={15} className="text-yellow-400" />
+                    <StarIcon size={15} className="text-yellow-400" />
                     <span>{project.stars}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <GitFork size={15} />
+                    <GitForkIcon size={15} />
                     <span>{project.forks}</span>
                   </div>
                 </div>

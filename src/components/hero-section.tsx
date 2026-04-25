@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Github, Code2, Sparkles, Rocket, ArrowDown } from "lucide-react";
+import { GithubIcon, CodeIcon, SparklesIcon, RocketIcon, ArrowDownIcon } from "lucide-react";
 
 export const HeroSection = () => {
   const [currentText, setCurrentText] = useState("");
@@ -41,28 +41,28 @@ export const HeroSection = () => {
           animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Code2 size={40} />
+          <CodeIcon size={40} />
         </motion.div>
         <motion.div
           className="absolute bottom-32 right-12 text-accent/10"
           animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Sparkles size={36} />
+          <SparklesIcon size={36} />
         </motion.div>
         <motion.div
           className="absolute top-44 right-24 text-primary/8"
           animate={{ y: [0, -15, 0], rotate: [0, 15, 0] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Rocket size={32} />
+          <RocketIcon size={32} />
         </motion.div>
         <motion.div
           className="absolute bottom-20 left-1/4 text-accent/8"
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Sparkles size={24} />
+          <SparklesIcon size={24} />
         </motion.div>
       </div>
 
@@ -77,7 +77,7 @@ export const HeroSection = () => {
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent opacity-20 blur-2xl" />
             <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/10 glow-subtle">
               <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-                <Github size={72} className="text-primary" />
+                <GithubIcon size={72} className="text-primary" />
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ export const HeroSection = () => {
               animate={{ y: [0, 4, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ArrowDown size={18} />
+              <ArrowDownIcon size={18} />
             </motion.span>
           </a>
         </motion.div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, GitCommit, GitPullRequest, AlertCircle, FolderGit2, Activity, TrendingUp } from "lucide-react";
+import { StarIcon, GitCommitIcon, GitPullRequestIcon, AlertCircleIcon, FolderGit2Icon, ActivityIcon, TrendingUpIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface GitHubStats {
@@ -41,24 +41,24 @@ export const AboutSection = () => {
   };
 
   const stats = [
-    { icon: Star, label: "Stars Earned", value: "588", color: "text-yellow-400", bg: "bg-yellow-400/10" },
+    { icon: StarIcon, label: "Stars Earned", value: "588", color: "text-yellow-400", bg: "bg-yellow-400/10" },
     { 
-      icon: GitCommit, 
+      icon: GitCommitIcon, 
       label: "Total Commits (Last Year)", 
       value: isLoading ? "..." : (githubStats ? formatNumber(githubStats.totalCommits) : "3.8K+"), 
       color: "text-emerald-400",
       bg: "bg-emerald-400/10"
     },
-    { icon: GitPullRequest, label: "Pull Requests", value: "16", color: "text-violet-400", bg: "bg-violet-400/10" },
-    { icon: AlertCircle, label: "Issues", value: "42", color: "text-red-400", bg: "bg-red-400/10" },
+    { icon: GitPullRequestIcon, label: "Pull Requests", value: "16", color: "text-violet-400", bg: "bg-violet-400/10" },
+    { icon: AlertCircleIcon, label: "Issues", value: "42", color: "text-red-400", bg: "bg-red-400/10" },
     { 
-      icon: FolderGit2, 
+      icon: FolderGit2Icon, 
       label: "Repositories", 
       value: isLoading ? "..." : (githubStats ? githubStats.publicRepos.toString() : "614"), 
       color: "text-blue-400",
       bg: "bg-blue-400/10"
     },
-    { icon: Activity, label: "Contributions", value: "3,183+", color: "text-primary", bg: "bg-primary/10" },
+    { icon: ActivityIcon, label: "Contributions", value: "3,183+", color: "text-primary", bg: "bg-primary/10" },
   ];
 
   return (
@@ -78,7 +78,7 @@ export const AboutSection = () => {
             transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
           >
-            <TrendingUp size={16} />
+            <TrendingUpIcon size={16} />
             <span>About Me</span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">

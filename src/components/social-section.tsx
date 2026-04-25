@@ -1,27 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Github, Mail, Users } from "lucide-react";
+import { InstagramIcon, LinkedinIcon, GithubIcon, MailIcon, UsersIcon } from "lucide-react";
 import { SiCodepen } from "react-icons/si";
 
 const socialLinks = [
   {
     name: "Instagram",
-    icon: Instagram,
+    icon: InstagramIcon,
     url: "https://www.instagram.com/girish_lade_/",
     color: "hover:text-pink-500",
     bg: "hover:bg-pink-500/10"
   },
   {
     name: "LinkedIn",
-    icon: Linkedin,
+    icon: LinkedinIcon,
     url: "https://www.linkedin.com/in/girish-lade-075bba201/",
     color: "hover:text-blue-400",
     bg: "hover:bg-blue-400/10"
   },
   {
     name: "GitHub",
-    icon: Github,
+    icon: GithubIcon,
     url: "https://github.com/girishlade111",
     color: "hover:text-primary",
     bg: "hover:bg-primary/10"
@@ -35,7 +35,7 @@ const socialLinks = [
   },
   {
     name: "Email",
-    icon: Mail,
+    icon: MailIcon,
     url: "mailto:girish@ladestack.in",
     color: "hover:text-rose-400",
     bg: "hover:bg-rose-400/10"
@@ -60,7 +60,7 @@ export const SocialSection = () => {
             transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
           >
-            <Users size={16} />
+            <UsersIcon size={16} />
             <span>Get In Touch</span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
