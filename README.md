@@ -1,124 +1,278 @@
-# 🚀 Girish Balaso Lade - Developer Portfolio
+# 🚀 Girish Balaso Lade — Portfolio
 
-A modern, feature-rich portfolio website showcasing projects, GitHub statistics, and open-source contributions. Built with **Next.js 15**, **React 19**, and **TypeScript** for optimal performance and developer experience.
+> A modern, enterprise-grade portfolio website with real-time GitHub integration, smooth animations, and SaaS-style landing page design. Built with Next.js 15, React 19, and TypeScript.
 
-🌐 **Live Demo**: [View Portfolio](https://your-portfolio-url.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Portfolio-6366f1?style=for-the-badge)](https://girishlade111.github.io)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 ---
 
 ## ✨ Features
 
-### 🎯 Core Functionality
-- **Dynamic Hero Section** with animated typewriter effect showcasing multiple roles:
-  - UX/UI Designer
-  - AI Agent Builder
-  - Open Source Developer
-  - Startup Founder
-- **Real-time GitHub Integration** - Fetches live data from GitHub API:
+### 🎯 **Core Functionality**
+
+- **Dynamic Hero Section**
+  - Animated role showcase with `AnimatePresence` transitions
+  - 4 roles cycling: UX/UI Designer, AI Agent Builder, Open Source Developer, Startup Founder
+  - Gradient text effects with color variations per role
+  - 50+ animated floating particles
+  - Interactive mouse-tracking gradient orb
+  - Glass morphism stats cards
+  - 3 CTA buttons (View Projects, GitHub, Contact)
+  - 4 highlight cards (Clean Code, Beautiful UI, Innovation, Performance)
+
+- **Real-time GitHub Integration**
+  - Live data fetching from GitHub REST API
   - Total commits (last year)
-  - Repository count
+  - Public repositories count
   - Stars earned
   - Pull requests & issues
-  - Contribution activity
-- **Interactive Projects Showcase**:
-  - Displays pinned GitHub repositories
-  - **Tag-based filtering** - Filter projects by programming languages and topics
-  - Live demo links with Globe icon
-  - GitHub repository links with External Link icon
+  - Contribution calendar heatmap
+  - Graceful fallback when API limits reached
+
+- **Interactive Projects Showcase**
+  - Displays 6 pinned GitHub repositories
+  - Tag-based filtering system
+  - Live demo and GitHub links
   - Real-time stars and forks count
-  - **Smart fallback data** when API limits are reached
-- **GitHub Contributions Calendar** - Visual representation of coding activity
-- **Comprehensive Error Handling**:
-  - User-friendly error messages
-  - Retry functionality for failed API calls
-  - Graceful degradation to fallback data
-  - API rate limit detection
+  - Smart fallback data for API errors
+  - Retry functionality
+  - Error banners with dismiss option
 
-### 🎨 Design & UX
-- **Modern Dark Theme** with cyan/blue accent colors (#00AEEF)
-- **Glass Morphism Effects** - Frosted glass UI components
-- **Smooth Animations** powered by Framer Motion:
+- **GitHub Contributions Calendar**
+  - Visual contribution heatmap
+  - Custom dark theme matching portfolio
+  - Responsive display
+
+- **Social Media Integration**
+  - 6 platforms with gradient hover effects
+  - Instagram, LinkedIn, GitHub, CodePen, Email, Website
+  - Brand-colored icon buttons
+  - Animated entrance effects
+
+- **Professional Footer**
+  - 3-column grid layout
+  - Brand section with description
+  - Quick navigation links
+  - Social media icons
+  - "Say Hello" CTA button
+  - Scroll-to-top button
+
+### 🎨 **Design & User Experience**
+
+- **Modern Dark Theme**
+  - Primary: Indigo (#6366f1)
+  - Accent: Violet (#8b5cf6)
+  - Background: Zinc (#0a0a0f)
+  - Glass morphism cards
+
+- **Animations (Framer Motion)**
   - Scroll-triggered animations
-  - Hover effects
-  - Loading states
-  - Floating icons
-- **Fully Responsive** - Optimized for mobile, tablet, and desktop
-- **Gradient Backgrounds** with radial effects
-- **Interactive UI Components** from Radix UI + Shadcn/UI
+  - Hover scale and lift effects
+  - Staggered entrance animations
+  - Smooth page transitions
+  - Floating particles
+  - Rotating gradient rings
+  - Bounce animations
 
-### 🔧 Technical Features
-- **Server & Client Components** - Optimized Next.js 15 App Router architecture
-- **API Routes** for GitHub data fetching:
-  - `/api/github/repos` - Fetch repository data
-  - `/api/github/stats` - Fetch user statistics
-- **TypeScript** - Full type safety across the application
-- **Tailwind CSS v4** - Modern utility-first styling
-- **Font Optimization** with Geist Sans and Geist Mono
-- **SEO Optimized** - Semantic HTML and meta tags
+- **Responsive Design**
+  - Mobile-first approach
+  - Tablet optimization
+  - Desktop enhancement
+  - Breakpoints: sm, md, lg, xl
+
+- **UI Components (shadcn/ui)**
+  - Button (with variants)
+  - Badge
+  - Card
+  - Avatar
+  - 50+ Radix UI components
+
+### 🔒 **SEO & Performance**
+
+- **Search Engine Optimization**
+  - Comprehensive meta tags
+  - OpenGraph for social sharing
+  - Twitter Card support
+  - Canonical URLs
+  - Sitemap.xml generation
+  - robots.txt with full access
+
+- **Performance Optimizations**
+  - Server Components architecture
+  - Font optimization (Inter + JetBrains Mono)
+  - CSS variables for theming
+  - Tailwind CSS v4 with PostCSS
+  - Tree-shaking enabled
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **Framework**: Next.js 15.3.5 (App Router)
-- **UI Library**: React 19
-- **Language**: TypeScript 5
-- **Styling**: Tailwind CSS v4 + tw-animate-css
-- **Animations**: Framer Motion 12.23.24
-- **Icons**: Lucide React 0.552.0
-- **UI Components**: Radix UI + Shadcn/UI
+### Frontend Framework
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Next.js** | 15.3.5 | React framework with App Router |
+| **React** | 19 | UI library |
+| **TypeScript** | 5 | Type safety |
 
-### Key Libraries
-- **react-github-calendar** - GitHub contribution heatmap
-- **class-variance-authority** - Component variants
-- **clsx** + **tailwind-merge** - Dynamic class merging
-- **zod** - Schema validation
+### Styling & Animation
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Tailwind CSS** | v4 | Utility-first CSS |
+| **tw-animate-css** | Latest | Tailwind animation utilities |
+| **Framer Motion** | 12.23.24 | Animation library |
+
+### UI Components
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **shadcn/ui** | New York | Beautiful UI components |
+| **Radix UI** | Latest | Accessible primitives |
+| **Lucide React** | 0.552.0 | Icon library |
+| **React Icons** | Latest | Additional icons (SiCodepen) |
 
 ### Development Tools
-- **Package Manager**: Bun (Fast JavaScript runtime)
-- **Linting**: ESLint 9 + Next.js Config
-- **PostCSS**: @tailwindcss/postcss
+| Technology | Purpose |
+|------------|---------|
+| **ESLint 9** | Code linting |
+| **PostCSS** | CSS processing |
+| **@fontsource** | Self-hosted fonts |
+
+### External Integrations
+| Library | Purpose |
+|---------|---------|
+| **react-github-calendar** | GitHub contribution heatmap |
+| **class-variance-authority** | Component variant system |
+| **clsx + tailwind-merge** | Class name utilities |
+| **zod** | Schema validation |
+
+---
+
+## 📊 GitHub Statistics
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| 📦 **Repositories** | 600+ | Public repos |
+| 💻 **Commits** | 3.8K+ | Last year |
+| ⭐ **Stars** | 588+ | Earned across repos |
+| 🍴 **Forks** | 200+ | Community forks |
+| 📥 **Downloads** | 2.5K+ | Package downloads |
+| 🔀 **PRs Merged** | 16+ | Contributions |
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js** 20+ or **Bun** runtime installed
+
+- **Node.js** v20 or higher
+- **npm** or **bun** package manager
 - **Git** for version control
 - GitHub account (for API integration)
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/girishlade111/portfolio.git
-   cd portfolio
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/girishlade111/github-portfolio-template.git
+cd github-portfolio-template
 
-2. **Install dependencies**
-   ```bash
-   bun install
-   # or
-   npm install
-   ```
+# Install dependencies
+npm install
+# or
+bun install
 
-3. **Run the development server**
-   ```bash
-   bun dev
-   # or
-   npm run dev
-   ```
+# Start development server
+npm run dev
+# or
+bun dev
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+# Open http://localhost:3000
+```
 
 ### Build for Production
 
 ```bash
-bun run build
-bun run start
+# Create production build
+npm run build
+
+# Start production server
+npm run start
+```
+
+---
+
+## ⚙️ Configuration
+
+### 1. GitHub Username
+
+Update in multiple files:
+
+**`src/components/contributions-section.tsx`**
+```typescript
+<GitHubCalendar username="your-github-username" />
+```
+
+**`src/components/projects-section.tsx`**
+```typescript
+const projectRepos = [
+  "YourRepo1",
+  "YourRepo2",
+  // Add your repository names
+];
+```
+
+### 2. Project Data
+
+**`src/components/projects-section.tsx`** — Update `fallbackProjects`:
+```typescript
+{
+  name: "YourProject",
+  description: "Project description",
+  tags: ["Tech", "Stack"],
+  stars: 0,
+  forks: 0,
+  url: "https://github.com/...",
+  liveUrl: "https://your-demo.vercel.app"
+}
+```
+
+### 3. Social Media Links
+
+**`src/components/social-section.tsx`**
+```typescript
+{
+  name: "Platform",
+  icon: PlatformIcon,
+  url: "https://your-profile-url",
+  gradient: "from-color1 to-color2",
+  bgGradient: "hover:bg-gradient-to-br hover:from-color1/20 hover:to-color2/20"
+}
+```
+
+### 4. Theme Colors
+
+**`src/app/globals.css`**
+```css
+:root {
+  --primary: #YOUR_COLOR;
+  --accent: #YOUR_ACCENT;
+  --background: #YOUR_BG;
+}
+```
+
+### 5. SEO & Metadata
+
+**`src/app/layout.tsx`**
+```typescript
+export const metadata: Metadata = {
+  title: "Your Name — Your Title",
+  description: "Your portfolio description",
+  keywords: ["your", "keywords", "here"],
+  // ... more metadata
+};
 ```
 
 ---
@@ -126,47 +280,53 @@ bun run start
 ## 📁 Project Structure
 
 ```
-portfolio/
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── github/
-│   │   │       ├── repos/          # Repository data API
-│   │   │       └── stats/          # User statistics API
-│   │   ├── layout.tsx              # Root layout with fonts
-│   │   ├── page.tsx                # Homepage
-│   │   └── globals.css             # Global styles + Tailwind
-│   │
-│   ├── components/
-│   │   ├── ui/                     # Shadcn/UI components
-│   │   ├── hero-section.tsx        # Hero with typewriter effect
-│   │   ├── about-section.tsx       # GitHub stats display
-│   │   ├── projects-section.tsx    # Filtered projects showcase
-│   │   ├── contributions-section.tsx # GitHub calendar
-│   │   ├── social-section.tsx      # Social media links
-│   │   └── footer.tsx              # Footer component
-│   │
-│   └── lib/
-│       └── utils.ts                # Utility functions
+src/
+├── app/
+│   ├── api/
+│   │   └── github/
+│   │       ├── repos/route.ts      # Repository API
+│   │       └── stats/route.ts      # Stats API
+│   ├── layout.tsx                  # Root layout + metadata
+│   ├── page.tsx                    # Homepage
+│   ├── globals.css                 # Global styles
+│   ├── sitemap.ts                  # SEO sitemap
+│   └── robots.ts                   # robots.txt
 │
-├── public/                         # Static assets
-├── next.config.ts                  # Next.js configuration
-├── tailwind.config.ts              # Tailwind CSS config
-├── tsconfig.json                   # TypeScript configuration
-└── package.json                    # Dependencies
+├── components/
+│   ├── ui/                         # shadcn/ui components (50+)
+│   │   ├── button.tsx
+│   │   ├── badge.tsx
+│   │   ├── card.tsx
+│   │   ├── avatar.tsx
+│   │   └── ... (more components)
+│   │
+│   ├── hero-section.tsx            # Hero with animations
+│   ├── about-section.tsx           # Stats display
+│   ├── projects-section.tsx         # Projects showcase
+│   ├── contributions-section.tsx    # GitHub calendar
+│   ├── social-section.tsx          # Social links
+│   └── footer.tsx                   # Footer
+│
+└── lib/
+    ├── utils.ts                    # Utility functions
+    └── hooks/
+        └── use-mobile.tsx         # Mobile detection hook
 ```
 
 ---
 
 ## 🔌 API Routes
 
-### `/api/github/repos`
-**Fetches repository data for pinned projects**
+### GET `/api/github/repos`
 
-**Query Parameters**:
-- `repos` (string) - Comma-separated list of repository names
+Fetch repository data for pinned projects.
 
-**Response**:
+**Query Parameters:**
+```
+?repos=Repo1,Repo2,Repo3
+```
+
+**Response:**
 ```json
 {
   "repos": [
@@ -176,17 +336,19 @@ portfolio/
       "stars": 42,
       "forks": 8,
       "language": "TypeScript",
-      "topics": ["nextjs", "ai", "canvas"],
+      "topics": ["nextjs", "ai"],
       "html_url": "https://github.com/..."
     }
-  ]
+  ],
+  "error": null
 }
 ```
 
-### `/api/github/stats`
-**Fetches user GitHub statistics**
+### GET `/api/github/stats`
 
-**Response**:
+Fetch comprehensive GitHub statistics.
+
+**Response:**
 ```json
 {
   "totalCommits": 3842,
@@ -198,156 +360,145 @@ portfolio/
 
 ---
 
-## ⚙️ Configuration
+## 🎨 Customization Examples
 
-### GitHub API Integration
+### Add New Role to Hero
 
-The portfolio fetches live data from GitHub's API. To customize:
+Edit `hero-section.tsx`:
+```typescript
+const roles = [
+  "UX/UI Designer",
+  "AI Agent Builder",
+  "Open Source Developer",
+  "Startup Founder",
+  "Your New Role"
+];
 
-1. **Update GitHub Username**  
-   Edit `src/components/contributions-section.tsx`:
-   ```typescript
-   username="your-github-username"
-   ```
+const roleColors = [
+  "from-pink-500 to-rose-500",
+  "from-violet-500 to-purple-500",
+  "from-emerald-500 to-teal-500",
+  "from-amber-500 to-orange-500",
+  "from-cyan-500 to-blue-500"  // Add your color
+];
+```
 
-2. **Customize Pinned Projects**  
-   Edit `src/components/projects-section.tsx`:
-   ```typescript
-   const projectRepos = [
-     "YourRepo1",
-     "YourRepo2",
-     // Add your repository names
-   ];
-   ```
+### Add New Highlight Card
 
-3. **Update Fallback Project Data**  
-   Modify the `fallbackProjects` array with your project details, including:
-   - Project name
-   - Description
-   - Tags/languages
-   - GitHub URL
-   - Live demo URL (optional)
+```typescript
+const highlights = [
+  // ... existing highlights
+  { 
+    icon: YourIcon, 
+    title: "New Feature", 
+    desc: "Description here" 
+  }
+];
+```
 
-### Theme Customization
+### Add New Social Platform
 
-Edit `src/app/globals.css` to customize colors:
-
-```css
-:root {
-  --primary: #00AEEF;        /* Accent color */
-  --background: #0D1117;     /* Dark background */
-  --foreground: #C9D1D9;     /* Text color */
-  /* Add more custom properties */
+```typescript
+{
+  name: "Platform",
+  icon: PlatformIcon,
+  url: "https://your-url",
+  gradient: "from-color1 to-color2",
+  bgGradient: "hover:bg-gradient-to-br hover:from-color1/20 hover:to-color2/20"
 }
 ```
 
 ---
 
-## 🎨 Customization Guide
-
-### Adding New Sections
-1. Create a new component in `src/components/`
-2. Import and add to `src/app/page.tsx`
-3. Add smooth scroll anchor ID if needed
-
-### Modifying Hero Roles
-Edit the `roles` array in `hero-section.tsx`:
-```typescript
-const roles = [
-  "Your Role 1",
-  "Your Role 2",
-  // Add more roles
-];
-```
-
-### Updating About Statistics
-Modify the `stats` array in `about-section.tsx` to showcase your achievements.
-
----
-
 ## 🚢 Deployment
 
-### Deploy on Vercel (Recommended)
+### Vercel (Recommended)
 
-1. Push your code to GitHub
-2. Visit [vercel.com](https://vercel.com)
-3. Import your repository
-4. Configure settings (auto-detected)
-5. Deploy! 🎉
+```bash
+# 1. Push to GitHub
+git push origin main
+
+# 2. Import at vercel.com
+# 3. Deploy automatically
+```
+
+### GitHub Pages
+
+1. Update `next.config.ts`:
+```typescript
+output: 'export',
+basePath: '/github-portfolio-template'
+```
+
+2. Add GitHub Actions workflow
 
 ### Environment Variables (Optional)
 
-For GitHub API authentication (higher rate limits):
-
-```env
-GITHUB_TOKEN=your_github_personal_access_token
+For higher API rate limits:
+```
+GITHUB_TOKEN=your_personal_access_token
 ```
 
 ---
 
-## 📊 Features Breakdown
+## 🔐 Error Handling
 
-### Project Filtering System
-- **Dynamic Tag Extraction** - Automatically generates filter tags from project topics
-- **Multi-Select Filtering** - Filter by multiple tags simultaneously
-- **Clear Filters Button** - Quick reset to show all projects
-- **Result Counter** - Shows filtered vs. total project count
+The portfolio includes comprehensive error handling:
 
-### Error Handling
-- **Rate Limit Detection** - Detects GitHub API rate limits (HTTP 403)
-- **404 Handling** - Graceful handling of missing repositories
-- **Server Error Handling** - Fallback for GitHub service issues (HTTP 500+)
-- **Retry Mechanism** - User-initiated retry with loading state
-- **Dismissible Errors** - Non-intrusive error banners
+| Error Type | Handling |
+|------------|----------|
+| **API Rate Limit** | Displays fallback data + retry button |
+| **Repository Not Found** | Shows cached project data |
+| **Server Error** | Graceful degradation to fallback |
+| **Network Error** | Retry mechanism with loading state |
 
-### Performance Optimizations
-- **Server Components** - Reduced JavaScript bundle size
-- **Lazy Loading** - Components load on scroll
-- **Image Optimization** - Next.js Image component
-- **Font Optimization** - Geist font with display swap
+---
+
+## 📱 Social Profiles
+
+- **Instagram**: [@girish_lade_](https://www.instagram.com/girish_lade_/)
+- **LinkedIn**: [girish-lade](https://www.linkedin.com/in/girish-lade-075bba201/)
+- **GitHub**: [@girishlade111](https://github.com/girishlade111)
+- **CodePen**: [Girish-Lade-the-looper](https://codepen.io/Girish-Lade-the-looper)
+- **Email**: [admin@ladestack.in](mailto:admin@ladestack.in)
+- **Website**: [ladestack.in](https://ladestack.in)
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/your-username/repo.git`
+3. **Create** your branch: `git checkout -b feature/amazing-feature`
+4. **Commit** your changes: `git commit -m "Add amazing feature"`
+5. **Push** to the branch: `git push origin feature/amazing-feature`
+6. Open a **Pull Request**
 
 ---
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+MIT License — feel free to use this template for your own portfolio!
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Next.js Team** - For the amazing React framework
-- **Vercel** - For hosting and deployment platform
-- **Shadcn/UI** - For beautiful, accessible components
-- **Framer Motion** - For smooth animations
-- **GitHub** - For API access to profile data
+- **[Next.js](https://nextjs.org)** — The React framework for production
+- **[shadcn/ui](https://ui.shadcn.com)** — Beautifully designed components
+- **[Framer Motion](https://framer-motion.com)** — Animation library
+- **[Tailwind CSS](https://tailwindcss.com)** — Utility-first CSS
+- **[GitHub](https://github.com)** — For providing the API
+- **[Vercel](https://vercel.com)** — Hosting and deployment
 
 ---
 
-## 📧 Contact
+## ⭐ Show Your Support
 
-**Girish Balaso Lade**  
-- GitHub: [@girishlade111](https://github.com/girishlade111)
-- Website: [Your Portfolio URL]
+If you found this portfolio template helpful, please give it a **star** on GitHub!
 
 ---
 
-## 🌟 Star this Repository
-
-If you find this portfolio template helpful, please give it a ⭐ on GitHub!
-
----
-
-**Built with ❤️ by Girish Balaso Lade**
+<p align="center">
+  <strong>Built with ❤️ by <a href="https://github.com/girishlade111">Girish Balaso Lade</a></strong>
+</p>
