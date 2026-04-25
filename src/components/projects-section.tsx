@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Star, GitFork, Loader2, Globe, X, AlertCircle, RefreshCw } from "lucide-react";
+import { ExternalLink, Star, GitFork, Loader2, Globe, X, AlertCircle, RefreshCw, FolderOpen } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 
 interface Project {
@@ -140,7 +140,6 @@ export const ProjectsSection = () => {
       console.error("Error fetching GitHub data:", error);
       const errorMessage = error instanceof Error ? error.message : "Unable to fetch live project data from GitHub.";
       setError(errorMessage);
-      // Keep fallback data visible
       setProjects(fallbackProjects);
     } finally {
       setIsLoading(false);
@@ -151,7 +150,6 @@ export const ProjectsSection = () => {
     fetchRepoData();
   }, []);
 
-  // Extract all unique tags from all projects
   const allTags = useMemo(() => {
     const tagsSet = new Set<string>();
     projects.forEach(project => {
@@ -160,7 +158,6 @@ export const ProjectsSection = () => {
     return Array.from(tagsSet).sort();
   }, [projects]);
 
-  // Filter projects based on selected tags
   const filteredProjects = useMemo(() => {
     if (selectedTags.length === 0) {
       return projects;
@@ -183,7 +180,7 @@ export const ProjectsSection = () => {
   };
 
   return (
-    <section id="projects" className="py-20 px-6 bg-background/50">
+    <section id="projects" className="py-24 px-6 bg-zinc-950/50">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -192,7 +189,17 @@ export const ProjectsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-primary bg-clip-text text-transparent">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
+          >
+            <FolderOpen size={16} />
+            <span>Featured Work</span>
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
             Pinned Projects
           </h2>
           <p className="text-lg text-secondary max-w-3xl mx-auto">
@@ -200,25 +207,20 @@ export const ProjectsSection = () => {
           </p>
         </motion.div>
 
-        {/* Error Banner */}
         {error && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mb-8 p-4 rounded-lg bg-destructive/10 border border-destructive/20 flex items-start gap-3"
+            className="mb-8 p-4 rounded-xl bg-destructive/10 border border-destructive/20 flex items-start gap-3"
           >
             <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="text-sm text-foreground">
-                {error}
-              </p>
+              <p className="text-sm text-foreground">{error}</p>
             </div>
             <button
               onClick={fetchRepoData}
               disabled={isLoading}
-              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md bg-destructive/20 hover:bg-destructive/30 text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Retry fetching data"
+              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md bg-destructive/20 hover:bg-destructive/30 text-foreground transition-colors disabled:opacity-50"
             >
               <RefreshCw size={14} className={isLoading ? "animate-spin" : ""} />
               Retry
@@ -226,31 +228,29 @@ export const ProjectsSection = () => {
             <button
               onClick={() => setError(null)}
               className="text-secondary hover:text-foreground transition-colors"
-              title="Dismiss error"
             >
               <X size={18} />
             </button>
           </motion.div>
         )}
 
-        {/* Filter Tags Section */}
         {!isLoading && allTags.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-8"
+            className="mb-10"
           >
             <div className="flex flex-wrap items-center gap-3 justify-center">
-              <span className="text-sm text-secondary font-medium">Filter by:</span>
+              <span className="text-sm text-secondary font-medium">Filter:</span>
               {allTags.map((tag) => (
                 <button
                   key={tag}
                   onClick={() => toggleTag(tag)}
-                  className={`text-sm px-4 py-2 rounded-full border transition-all ${
+                  className={`text-sm px-4 py-2 rounded-full border transition-all duration-200 ${
                     selectedTags.includes(tag)
-                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
-                      : "bg-card/50 text-secondary border-border hover:border-primary/50 hover:text-primary"
+                      ? "bg-primary text-white border-primary shadow-lg shadow-primary/20"
+                      : "bg-card/50 text-secondary border-border/50 hover:border-primary/50 hover:text-primary"
                   }`}
                 >
                   {tag}
@@ -262,12 +262,12 @@ export const ProjectsSection = () => {
                   className="text-sm px-4 py-2 rounded-full bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/20 transition-all flex items-center gap-1"
                 >
                   <X size={14} />
-                  Clear Filters
+                  Clear
                 </button>
               )}
             </div>
             {selectedTags.length > 0 && (
-              <p className="text-center text-sm text-secondary mt-4">
+              <p className="text-center text-sm text-secondary mt-5">
                 Showing {filteredProjects.length} of {projects.length} projects
               </p>
             )}
@@ -280,15 +280,8 @@ export const ProjectsSection = () => {
           </div>
         ) : filteredProjects.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-lg text-secondary">
-              No projects found matching the selected filters.
-            </p>
-            <button
-              onClick={clearFilters}
-              className="mt-4 text-primary hover:underline"
-            >
-              Clear all filters
-            </button>
+            <p className="text-lg text-secondary">No projects found matching the selected filters.</p>
+            <button onClick={clearFilters} className="mt-4 text-primary hover:underline">Clear all filters</button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -298,12 +291,14 @@ export const ProjectsSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="glass-card rounded-2xl p-6 hover:shadow-xl hover:shadow-primary/10 transition-all group"
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                className="glass-card glass-card-hover rounded-2xl p-6 transition-all duration-300 group relative overflow-hidden"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="flex items-start justify-between mb-4 relative">
+                  <h3 className="text-xl font-bold group-hover:text-primary transition-colors tracking-tight">
                     {project.name}
                   </h3>
                   <div className="flex items-center gap-2">
@@ -312,46 +307,46 @@ export const ProjectsSection = () => {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-secondary hover:text-primary transition-colors"
+                        className="text-secondary hover:text-primary transition-colors p-1 rounded-lg hover:bg-primary/10"
                         title="View Live Demo"
                       >
-                        <Globe size={20} />
+                        <Globe size={18} />
                       </a>
                     )}
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-secondary hover:text-primary transition-colors"
+                      className="text-secondary hover:text-primary transition-colors p-1 rounded-lg hover:bg-primary/10"
                       title="View on GitHub"
                     >
-                      <ExternalLink size={20} />
+                      <ExternalLink size={18} />
                     </a>
                   </div>
                 </div>
 
-                <p className="text-sm text-secondary mb-4 line-clamp-2">
+                <p className="text-sm text-secondary mb-5 line-clamp-2 leading-relaxed">
                   {project.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-5">
                   {project.tags.slice(0, 4).map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
+                      className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary/90 border border-primary/20"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center gap-4 text-sm text-secondary">
-                  <div className="flex items-center gap-1">
-                    <Star size={16} className="text-yellow-400" />
+                <div className="flex items-center gap-5 text-sm text-secondary pt-3 border-t border-border/50">
+                  <div className="flex items-center gap-1.5">
+                    <Star size={15} className="text-yellow-400" />
                     <span>{project.stars}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <GitFork size={16} />
+                  <div className="flex items-center gap-1.5">
+                    <GitFork size={15} />
                     <span>{project.forks}</span>
                   </div>
                 </div>

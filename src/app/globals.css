@@ -45,46 +45,25 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: #0D1117;
-  --foreground: #C9D1D9;
-  --card: rgba(255, 255, 255, 0.05);
-  --card-foreground: #C9D1D9;
-  --popover: #161B22;
-  --popover-foreground: #C9D1D9;
-  --primary: #00AEEF;
-  --primary-foreground: #FFFFFF;
-  --secondary: #9CA3AF;
-  --secondary-foreground: #FFFFFF;
-  --muted: #21262D;
-  --muted-foreground: #8B949E;
-  --accent: #00AEEF;
-  --accent-foreground: #FFFFFF;
-  --destructive: #DA3633;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #00AEEF;
-}
-
-.dark {
-  --background: #0D1117;
-  --foreground: #C9D1D9;
-  --card: rgba(255, 255, 255, 0.05);
-  --card-foreground: #C9D1D9;
-  --popover: #161B22;
-  --popover-foreground: #C9D1D9;
-  --primary: #00AEEF;
-  --primary-foreground: #FFFFFF;
-  --secondary: #9CA3AF;
-  --secondary-foreground: #FFFFFF;
-  --muted: #21262D;
-  --muted-foreground: #8B949E;
-  --accent: #00AEEF;
-  --accent-foreground: #FFFFFF;
-  --destructive: #DA3633;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.15);
-  --ring: #00AEEF;
+  --radius: 0.75rem;
+  --background: #0a0a0f;
+  --foreground: #fafafa;
+  --card: rgba(255, 255, 255, 0.03);
+  --card-foreground: #fafafa;
+  --popover: #121218;
+  --popover-foreground: #fafafa;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #a1a1aa;
+  --secondary-foreground: #ffffff;
+  --muted: #18181b;
+  --muted-foreground: #71717a;
+  --accent: #8b5cf6;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: #6366f1;
 }
 
 @layer base {
@@ -92,28 +71,81 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
   
   html {
     scroll-behavior: smooth;
   }
+  
+  ::selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: #fafafa;
+  }
 }
 
-/* Glass morphism effect */
-.glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@layer utilities {
+  .glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-card-hover:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .gradient-bg {
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 50%, rgba(139, 92, 246, 0.15), transparent),
+      radial-gradient(ellipse 50% 30% at 20% 60%, rgba(99, 102, 241, 0.1), transparent),
+      #0a0a0f;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #fafafa 0%, #a5b4fc 50%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(139, 92, 246, 0.3), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.3), 0 0 80px rgba(99, 102, 241, 0.1);
+  }
+
+  .glow-subtle {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+  }
 }
 
-/* Gradient background */
-.gradient-bg {
-  background: radial-gradient(ellipse at top, rgba(0, 174, 239, 0.15), transparent 50%),
-              radial-gradient(ellipse at bottom, rgba(0, 174, 239, 0.1), transparent 50%);
-}
-
-/* Hide Next.js error overlay portal */
-nextjs-portal {
+.nextjs-portal {
   display: none !important;
 }

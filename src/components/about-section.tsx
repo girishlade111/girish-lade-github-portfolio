@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, GitCommit, GitPullRequest, AlertCircle, FolderGit2, Activity } from "lucide-react";
+import { Star, GitCommit, GitPullRequest, AlertCircle, FolderGit2, Activity, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface GitHubStats {
@@ -41,26 +41,28 @@ export const AboutSection = () => {
   };
 
   const stats = [
-    { icon: Star, label: "Stars Earned", value: "588", color: "text-yellow-400" },
+    { icon: Star, label: "Stars Earned", value: "588", color: "text-yellow-400", bg: "bg-yellow-400/10" },
     { 
       icon: GitCommit, 
       label: "Total Commits (Last Year)", 
       value: isLoading ? "..." : (githubStats ? formatNumber(githubStats.totalCommits) : "3.8K+"), 
-      color: "text-green-400" 
+      color: "text-emerald-400",
+      bg: "bg-emerald-400/10"
     },
-    { icon: GitPullRequest, label: "Pull Requests", value: "16", color: "text-purple-400" },
-    { icon: AlertCircle, label: "Issues", value: "42", color: "text-red-400" },
+    { icon: GitPullRequest, label: "Pull Requests", value: "16", color: "text-violet-400", bg: "bg-violet-400/10" },
+    { icon: AlertCircle, label: "Issues", value: "42", color: "text-red-400", bg: "bg-red-400/10" },
     { 
       icon: FolderGit2, 
       label: "Repositories", 
       value: isLoading ? "..." : (githubStats ? githubStats.publicRepos.toString() : "614"), 
-      color: "text-blue-400" 
+      color: "text-blue-400",
+      bg: "bg-blue-400/10"
     },
-    { icon: Activity, label: "Contributions", value: "3,183+", color: "text-primary" },
+    { icon: Activity, label: "Contributions", value: "3,183+", color: "text-primary", bg: "bg-primary/10" },
   ];
 
   return (
-    <section id="about" className="py-20 px-6">
+    <section id="about" className="py-24 px-6 relative">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -69,8 +71,18 @@ export const AboutSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-primary bg-clip-text text-transparent">
-            About Me
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6"
+          >
+            <TrendingUp size={16} />
+            <span>About Me</span>
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+            Who Am I
           </h2>
           <p className="text-lg text-secondary max-w-3xl mx-auto leading-relaxed">
             I'm <span className="text-primary font-semibold">Girish Balaso Lade</span> — a developer, designer, and AI enthusiast 
@@ -79,7 +91,7 @@ export const AboutSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -87,15 +99,15 @@ export const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="glass-card rounded-2xl p-6 hover:shadow-xl hover:shadow-primary/10 transition-all"
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="glass-card glass-card-hover rounded-2xl p-6 transition-all duration-300"
             >
               <div className="flex items-start gap-4">
-                <div className={`p-3 rounded-lg bg-background/50 ${stat.color}`}>
-                  <stat.icon size={24} />
+                <div className={`p-3.5 rounded-xl ${stat.bg}`}>
+                  <stat.icon size={24} className={stat.color} />
                 </div>
-                <div>
-                  <p className="text-3xl font-bold mb-1">{stat.value}</p>
+                <div className="flex-1">
+                  <p className="text-3xl font-bold mb-1 tracking-tight">{stat.value}</p>
                   <p className="text-sm text-secondary">{stat.label}</p>
                 </div>
               </div>
