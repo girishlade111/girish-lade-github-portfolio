@@ -1,102 +1,139 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { GithubIcon, ArrowRightIcon, SparklesIcon, ZapIcon, ExternalLinkIcon, DownloadIcon } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { GithubIcon, ArrowRightIcon, SparklesIcon, MousePointerIcon, CodeIcon, ZapIcon, StarIcon, GitForkIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-const stats = [
-  { value: "600+", label: "Repositories" },
-  { value: "3.8K+", label: "Commits" },
-  { value: "588", label: "Stars" },
-  { value: "16", label: "PRs Merged" },
+const features = [
+  { icon: CodeIcon, label: "Clean Code", color: "text-blue-400" },
+  { icon: SparklesIcon, label: "AI Powered", color: "text-purple-400" },
+  { icon: ZapIcon, label: "Fast Performance", color: "text-yellow-400" },
 ];
 
-const badges = [
-  "Open Source",
-  "AI Enthusiast",
-  "TypeScript",
-  "Next.js",
-  "React",
-  "Creative Developer",
+const floatingElements = [
+  { icon: StarIcon, x: "10%", y: "20%", delay: 0 },
+  { icon: GitForkIcon, x: "85%", y: "15%", delay: 0.5 },
+  { icon: CodeIcon, x: "15%", y: "70%", delay: 1 },
+  { icon: SparklesIcon, x: "80%", y: "75%", delay: 1.5 },
 ];
 
 export const HeroSection = () => {
-  const [mounted, setMounted] = useState(false);
+  const ref = useRef(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
-    setMounted(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  if (!mounted) return null;
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={ref} className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.15),transparent)]" />
+        <div className="absolute inset-0 bg-[conic-gradient(from_180deg_at_50%_50%,#0a0a0f_0deg,rgba(99,102,241,0.05)_180deg,#0a0a0f_360deg)]" />
         
+        <div className="absolute inset-0">
+          {floatingElements.map((el, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 0.15, scale: 1 }}
+              transition={{ duration: 0.8, delay: el.delay }}
+              className={`absolute ${el.color} blur-sm`}
+              style={{ left: el.x, top: el.y }}
+            >
+              <el.icon size={32} />
+            </motion.div>
+          ))}
+        </div>
+
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
+          className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-r from-primary/20 via-accent/20 to-violet-500/20 blur-[120px]"
+          style={{
+            x: mousePosition.x * 2,
+            y: mousePosition.y * 2,
+            left: "50%",
+            top: "40%",
+            translateX: "-50%",
+            translateY: "-50%",
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]"
         />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/20 rounded-full blur-[100px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.15, 0.3, 0.15],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/2 right-1/3 w-[300px] h-[300px] bg-violet-500/15 rounded-full blur-[80px]"
-        />
+
+        <svg className="absolute inset-0 w-full h-full opacity-30">
+          <defs>
+            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
       </div>
 
-      <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
+      <motion.div style={{ y, opacity }} className="relative z-10 container mx-auto px-6 py-32">
+        <div className="flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="mb-8"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-primary/20">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span className="text-sm text-secondary">Available for projects</span>
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-card border-primary/20">
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="relative flex h-2.5 w-2.5"
+              >
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              </motion.span>
+              <span className="text-sm font-medium text-secondary">Open for Opportunities</span>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="mb-8"
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mb-10 relative"
           >
-            <div className="relative w-32 h-32 mx-auto">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary via-accent to-violet-500 animate-spin-slow" style={{ animationDuration: "8s" }} />
-              <div className="absolute inset-[3px] rounded-full bg-zinc-950" />
-              <div className="absolute inset-[12px] rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center overflow-hidden">
+            <div className="w-36 h-36 md:w-44 md:h-44 relative">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 rounded-full p-[3px] bg-gradient-to-br from-primary via-accent to-violet-500"
+              >
+                <div className="w-full h-full rounded-full bg-zinc-950" />
+              </motion.div>
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-2 rounded-full border border-dashed border-primary/30"
+              />
+              <div className="absolute inset-3 md:inset-4 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center overflow-hidden border border-white/10">
                 <GithubIcon size={48} className="text-primary" />
               </div>
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0"
-              >
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-lg shadow-primary/50" />
-              </motion.div>
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="absolute -inset-4 rounded-full bg-primary/10 blur-xl"
+              />
             </div>
           </motion.div>
 
@@ -104,17 +141,17 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 mb-6"
+            className="flex flex-wrap justify-center gap-3 mb-8"
           >
-            {badges.map((badge, index) => (
+            {["Open Source", "AI Enthusiast", "TypeScript", "Next.js Expert", "React", "Creative"].map((tag, i) => (
               <motion.div
-                key={badge}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
+                key={tag}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.05 }}
               >
-                <Badge variant="secondary" className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
-                  {badge}
+                <Badge className="px-3 py-1.5 text-xs font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
+                  {tag}
                 </Badge>
               </motion.div>
             ))}
@@ -124,27 +161,27 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4"
           >
             <span className="gradient-text">Girish Balaso Lade</span>
           </motion.h1>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-xl md:text-2xl text-secondary mb-4 max-w-3xl mx-auto leading-relaxed"
+            className="mb-6"
           >
-            <TypewriterText texts={["UX/UI Designer", "AI Agent Builder", "Open Source Developer", "Startup Founder"]} />
-          </motion.p>
+            <Typewriter roles={["UX/UI Designer", "AI Agent Builder", "Open Source Dev", "Startup Founder"]} />
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-base text-muted-foreground mb-10 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-secondary max-w-2xl mb-10 leading-relaxed"
           >
-            Building tools people actually use… for free. Passionate about creating beautiful, functional experiences.
+            Obsessed with building tools people actually use… for free.
           </motion.p>
 
           <motion.div
@@ -153,70 +190,74 @@ export const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="flex flex-wrap items-center justify-center gap-4 mb-16"
           >
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105"
-            >
-              <span>View Projects</span>
-              <ArrowRightIcon size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="https://github.com/girishlade111"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card border border-white/10 text-secondary font-semibold hover:text-primary hover:border-primary/30 transition-all duration-300 hover:scale-105"
-            >
-              <GithubIcon size={18} />
-              <span>GitHub Profile</span>
-              <ExternalLinkIcon size={14} className="opacity-50" />
-            </a>
-            <a
-              href="mailto:admin@ladestack.in"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-card border border-white/10 text-secondary font-semibold hover:text-primary hover:border-primary/30 transition-all duration-300 hover:scale-105"
-            >
-              <span>Get In Touch</span>
-            </a>
+            <Button size="lg" className="h-12 px-8 rounded-xl bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/25 group">
+              <a href="#projects" className="flex items-center gap-2">
+                <span>Explore Work</span>
+                <ArrowRightIcon size={18} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </Button>
+            <Button size="lg" variant="outline" className="h-12 px-8 rounded-xl glass-card border-white/10 hover:border-primary/30 hover:text-primary">
+              <a href="https://github.com/girishlade111" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <GithubIcon size={18} />
+                <span>GitHub</span>
+              </a>
+            </Button>
+            <Button size="lg" variant="outline" className="h-12 px-8 rounded-xl glass-card border-white/10 hover:border-primary/30 hover:text-primary">
+              <a href="mailto:admin@ladestack.in" className="flex items-center gap-2">
+                <span>Contact Me</span>
+              </a>
+            </Button>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-3xl"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl"
           >
-            {stats.map((stat, index) => (
+            {[
+              { value: "600+", label: "Repositories", color: "from-blue-400 to-cyan-400" },
+              { value: "3.8K+", label: "Commits", color: "from-emerald-400 to-teal-400" },
+              { value: "588", label: "Stars", color: "from-yellow-400 to-orange-400" },
+              { value: "16", label: "PRs Merged", color: "from-violet-400 to-purple-400" },
+            ].map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                className="glass-card rounded-2xl p-5 text-center hover:border-primary/30 transition-all duration-300"
+                transition={{ delay: 0.8 + i * 0.1 }}
+                className="glass-card rounded-2xl p-5 text-center group hover:border-primary/30 transition-all duration-300"
               >
-                <div className="text-2xl md:text-3xl font-bold gradient-text mb-1">{stat.value}</div>
+                <div className={`text-2xl md:text-3xl font-bold mb-1 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                  {stat.value}
+                </div>
                 <div className="text-xs text-muted-foreground">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2"
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="flex flex-col items-center gap-3"
         >
-          <span className="text-xs text-muted-foreground">Scroll to explore</span>
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <MousePointerIcon size={12} />
+            <span>Scroll to explore</span>
+          </div>
+          <div className="w-7 h-11 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
             <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1.5 h-1.5 rounded-full bg-white/60"
+              animate={{ y: [0, 14, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-primary to-accent"
             />
           </div>
         </motion.div>
@@ -225,39 +266,36 @@ export const HeroSection = () => {
   );
 };
 
-function TypewriterText({ texts }: { texts: string[] }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [charIndex, setCharIndex] = useState(0);
+function Typewriter({ roles }: { roles: string[] }) {
+  const [index, setIndex] = useState(0);
+  const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    const typeSpeed = isDeleting ? 50 : 100;
+    const pauseTime = isDeleting ? 500 : 2000;
+
     const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        if (charIndex < texts[currentIndex].length) {
-          setCurrentText(texts[currentIndex].slice(0, charIndex + 1));
-          setCharIndex(charIndex + 1);
-        } else {
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
+      const current = roles[index];
+
+      if (!isDeleting && text === current) {
+        setTimeout(() => setIsDeleting(true), pauseTime);
+      } else if (isDeleting && text === "") {
+        setIsDeleting(false);
+        setIndex((prev) => (prev + 1) % roles.length);
       } else {
-        if (charIndex > 0) {
-          setCurrentText(texts[currentIndex].slice(0, charIndex - 1));
-          setCharIndex(charIndex - 1);
-        } else {
-          setIsDeleting(false);
-          setCurrentIndex((prev) => (prev + 1) % texts.length);
-        }
+        setText(isDeleting ? text.slice(0, -1) : current.slice(0, text.length + 1));
       }
-    }, isDeleting ? 50 : 100);
+    }, typeSpeed);
 
     return () => clearTimeout(timeout);
-  }, [charIndex, currentIndex, isDeleting, texts]);
+  }, [text, isDeleting, index, roles]);
 
   return (
-    <span>
-      <span className="gradient-text">{currentText}</span>
-      <span className="animate-pulse text-primary">|</span>
-    </span>
+    <h2 className="text-2xl md:text-3xl font-semibold">
+      <span className="text-secondary mr-2">I'm a</span>
+      <span className="gradient-text">{text}</span>
+      <span className="animate-pulse text-primary ml-1">|</span>
+    </h2>
   );
 }
